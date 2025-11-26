@@ -1,20 +1,19 @@
 :host {
   display: block;
   min-height: 100vh;
-  background: radial-gradient(circle at 15% 20%, rgba(0, 120, 255, 0.22), transparent 30%),
-    radial-gradient(circle at 80% 0%, rgba(139, 92, 246, 0.28), transparent 30%),
-    #0a1024;
+  background: #f8fafc;
 }
 
 .admin-surface {
   min-height: 100vh;
-  color: #e2e8f0;
+  color: #0f172a;
 }
 
 .admin-toolbar {
-  background: linear-gradient(120deg, #0a0f23, #101835, #0b1b45);
+  background: #ffffff;
   padding-inline: 1.25rem;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  border-bottom: 1px solid #e2e8f0;
+  color: #0f172a;
 }
 
 .toolbar-brand {
@@ -41,8 +40,12 @@
   gap: 0.5rem;
 }
 
+.toolbar-links a {
+  color: #0f172a;
+}
+
 .toolbar-links a.active {
-  background: rgba(255, 255, 255, 0.1);
+  background: #e2e8f0;
   border-radius: 8px;
 }
 
@@ -51,12 +54,12 @@
 }
 
 .hero-copy {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.08));
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
   padding: 1rem 1.25rem;
   max-width: 520px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
 }
 
 .hero-copy h2 {
@@ -68,7 +71,7 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 700;
-  color: #93c5fd;
+  color: #0f172a;
   margin: 0;
 }
 

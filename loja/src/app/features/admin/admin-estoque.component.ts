@@ -5,7 +5,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -26,7 +25,6 @@ import { EstoqueMovimentoRequest } from '../../core/models/estoque';
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
-    MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -41,14 +39,14 @@ export class AdminEstoqueComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly dialog = inject(MatDialog);
 
-  @ViewChild('estoqueDialog') estoqueDialog?: TemplateRef<unknown>;
+  @ViewChild('produtoDialog') produtoDialog?: TemplateRef<unknown>;
+  @ViewChild('movimentoDialog') movimentoDialog?: TemplateRef<unknown>;
 
   protected readonly produtos = signal<Produto[]>([]);
   protected readonly loadingProdutos = signal(false);
   protected readonly feedback = signal<string | null>(null);
   protected readonly movimentoFeedback = signal<string | null>(null);
   protected readonly selectedProdutoId = signal<string | null>(null);
-  protected dialogTabIndex = 0;
 
   protected produtoForm = this.formBuilder.nonNullable.group({
     nome: ['', [Validators.required, Validators.minLength(2)]],
@@ -92,20 +90,24 @@ export class AdminEstoqueComponent implements OnInit {
     });
   }
 
-  abrirDialogo(tabIndex = 0, produto?: Produto): void {
+  abrirDialogoProduto(produto?: Produto): void {
     if (produto) {
       this.editar(produto, false);
     } else {
       this.resetProdutoForm();
     }
 
-    if (tabIndex === 1 && produto?.id) {
-      this.movimentoForm.patchValue({ produtoId: produto.id });
+    if (this.produtoDialog) {
+      this.dialog.open(this.produtoDialog, { panelClass: 'estoque-dialog', width: '680px' });
     }
+  }
 
-    this.dialogTabIndex = tabIndex;
-    if (this.estoqueDialog) {
-      this.dialog.open(this.estoqueDialog, { panelClass: 'estoque-dialog', width: '720px' });
+  abrirDialogoMovimento(produto?: Produto): void {
+    const targetId = produto?.id ?? this.movimentoForm.controls.produtoId.value ?? '';
+    this.movimentoForm.patchValue({ produtoId: targetId });
+
+    if (this.movimentoDialog) {
+      this.dialog.open(this.movimentoDialog, { panelClass: 'estoque-dialog', width: '520px' });
     }
   }
 
@@ -155,7 +157,7 @@ export class AdminEstoqueComponent implements OnInit {
     });
 
     if (openDialog) {
-      this.abrirDialogo(0, produto);
+      this.abrirDialogoProduto(produto);
     }
   }
 

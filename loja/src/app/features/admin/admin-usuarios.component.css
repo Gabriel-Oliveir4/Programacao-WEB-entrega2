@@ -1,6 +1,6 @@
 :host {
   display: block;
-  color: #e2e8f0;
+  color: #0f172a;
 }
 
 .wrapper {
@@ -12,11 +12,11 @@
 }
 
 .hero {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.16));
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
   padding: 1rem 1.25rem;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
 }
 
 .hero h1 {
@@ -26,20 +26,26 @@
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #93c5fd;
+  color: #0f172a;
   margin: 0;
   font-weight: 700;
 }
 
 .muted {
-  color: #94a3b8;
+  color: #64748b;
 }
 
 .form-card {
-  background: linear-gradient(180deg, #0f172a, #0a1024);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-  color: #e2e8f0;
-  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+}
+
+.form-card mat-card-title,
+.form-card mat-card-subtitle {
+  color: #0f172a;
 }
 
 .form {
@@ -54,15 +60,17 @@ button[mat-flat-button] mat-icon {
 }
 
 .avatar {
-  background: #1d4ed8;
-  color: #e0f2fe;
+  background: #e0e7ff;
+  color: #1e3a8a;
+  display: grid;
+  place-items: center;
 }
 
 .feedback {
   margin-top: 0.75rem;
-  background: rgba(52, 211, 153, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.5);
-  color: #34d399;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
   padding: 0.75rem 1rem;
   border-radius: 10px;
 }

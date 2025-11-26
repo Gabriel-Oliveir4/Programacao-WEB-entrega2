@@ -3,34 +3,20 @@
   color: #0f172a;
 }
 
-.hero {
-  background: linear-gradient(120deg, #0f172a, #111a3a 45%, #182243);
-  color: #e2e8f0;
-  border-radius: 18px;
-  padding: 1.5rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+.page-title {
+  margin-bottom: 0.75rem;
 }
 
-.hero__copy h1 {
-  margin: 0.15rem 0;
-  font-size: 1.6rem;
-}
-
-.hero__actions {
-  display: flex;
-  gap: 0.75rem;
+.page-title h1 {
+  margin: 0.25rem 0;
 }
 
 .eyebrow {
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   font-weight: 700;
   font-size: 0.75rem;
-  color: #7dd3fc;
+  color: #0f172a;
   margin: 0;
 }
 
@@ -39,18 +25,21 @@
 }
 
 .filters {
-  margin: 1.25rem 0 0.25rem;
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .filter-field {
   min-width: 220px;
+  flex: 1 1 240px;
 }
 
 .feedback {
   margin-top: 0.5rem;
-  background: #ecfeff;
-  border: 1px solid #22d3ee;
+  background: #f0f9ff;
+  border: 1px solid #bfdbfe;
   color: #0f172a;
   padding: 0.75rem 1rem;
   border-radius: 12px;
@@ -71,36 +60,34 @@
 }
 
 .order-card {
-  border-radius: 16px;
-  background: linear-gradient(180deg, #0b1226 0%, #0f172a 70%, #0f172a);
-  color: #e2e8f0;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
   display: flex;
   flex-direction: column;
 }
 
-.order-card mat-card-title,
-.order-card mat-card-subtitle {
-  color: #e2e8f0;
+.header-text {
+  flex: 1;
 }
 
 .status-chip mat-chip {
   text-transform: uppercase;
   letter-spacing: 0.02em;
   font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .avatar {
-  background: #1d4ed8;
-  color: #dbeafe;
+  background: #e0e7ff;
+  color: #1e3a8a;
 }
 
 .items-title {
   font-weight: 700;
   margin-bottom: 0.35rem;
-  color: #cbd5e1;
+  color: #0f172a;
 }
 
 .order-card ul {
@@ -109,44 +96,65 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
 
 .order-card li {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 0.35rem;
-  color: #e2e8f0;
+  gap: 0.5rem;
+  color: #0f172a;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.order-card li:last-child {
+  border-bottom: none;
+}
+
+.item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.item-name {
+  font-weight: 600;
 }
 
 .order-card mat-icon {
   font-size: 18px;
   height: 18px;
   width: 18px;
+  color: #64748b;
 }
 
 .order-card mat-card-content {
-  border-top: 1px solid rgba(148, 163, 184, 0.15);
+  border-top: 1px solid #f1f5f9;
   padding-top: 0.5rem;
 }
 
 .chip-paid {
-  color: #0f172a !important;
-  background: rgba(74, 222, 128, 0.9) !important;
+  color: #14532d !important;
+  background: #dcfce7 !important;
+  border-color: #22c55e !important;
 }
 
 .chip-created {
-  color: #0f172a !important;
-  background: rgba(250, 204, 21, 0.95) !important;
+  color: #713f12 !important;
+  background: #fef9c3 !important;
+  border-color: #facc15 !important;
 }
 
 .chip-cancelado {
-  color: #fef2f2 !important;
-  background: rgba(239, 68, 68, 0.9) !important;
+  color: #7f1d1d !important;
+  background: #fee2e2 !important;
+  border-color: #ef4444 !important;
 }
 
 .chip-default {
-  color: #e2e8f0 !important;
-  background: rgba(148, 163, 184, 0.35) !important;
+  color: #0f172a !important;
+  background: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
 }
