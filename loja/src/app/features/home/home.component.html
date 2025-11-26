@@ -1,0 +1,203 @@
+<section class="welcome">
+  <div>
+    <p class="badge">Autenticado como {{ papelAtual() }}</p>
+    <h1>Dashboard La Couro</h1>
+    <p>
+      Siga o fluxo do Postman: registre um CLIENTE, faça login como ADMIN seed para publicar itens e depois
+      volte como CLIENTE para gerar pedidos. O ADMIN pode pagar pedidos e criar novos administradores.
+    </p>
+    <div class="actions">
+      <a routerLink="/login">Trocar usuário</a>
+      <a href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noreferrer">Abrir Swagger</a>
+    </div>
+  </div>
+  <div class="resume">
+    <p>Produtos publicados: <strong>{{ produtos().length }}</strong></p>
+    <p *ngIf="isAdmin()">Pedidos totais: <strong>{{ pedidos().length }}</strong></p>
+    <p *ngIf="isClient()">Meus pedidos: <strong>{{ pedidos().length }}</strong></p>
+  </div>
+</section>
+
+<section class="grid">
+  <article class="card" *ngIf="isAdmin()">
+    <header>
+      <p class="badge">Admin</p>
+      <h2>Publicar item para venda</h2>
+      <p>Envie um novo produto para que os clientes possam visualizar e comprar.</p>
+    </header>
+
+    <form [formGroup]="produtoForm" (ngSubmit)="criarProduto()" class="product-form" novalidate>
+      <label>
+        <span>Nome</span>
+        <input type="text" formControlName="nome" placeholder="Tapete Azul" />
+      </label>
+      <label>
+        <span>Tamanho</span>
+        <input type="text" formControlName="tamanho" placeholder="2x3" />
+      </label>
+      <label>
+        <span>Cor</span>
+        <input type="text" formControlName="cor" placeholder="Azul" />
+      </label>
+      <label>
+        <span>Preço</span>
+        <input type="number" formControlName="preco" min="0" step="0.01" />
+      </label>
+      <label>
+        <span>Estoque</span>
+        <input type="number" formControlName="quantidadeEstoque" min="0" />
+      </label>
+      <label>
+        <span>Foto (URL)</span>
+        <input type="url" formControlName="fotoUrl" placeholder="https://..." />
+      </label>
+      <button type="submit">Criar produto</button>
+    </form>
+
+    <p *ngIf="feedback()" class="feedback">{{ feedback() }}</p>
+  </article>
+
+  <article class="card" *ngIf="isAdmin()">
+    <header class="card-title">
+      <p class="badge">Admin</p>
+      <h2>Criar novo ADMIN</h2>
+    </header>
+
+    <p class="muted">A API exige um ADMIN inicial seed. Depois disso, use este formulário para repetir o passo 5 do Postman.</p>
+
+    <form [formGroup]="adminForm" (ngSubmit)="registrarAdmin()" class="product-form" novalidate>
+      <label>
+        <span>Nome</span>
+        <input type="text" formControlName="nome" placeholder="Admin Demo" />
+      </label>
+      <label>
+        <span>Email</span>
+        <input type="email" formControlName="email" placeholder="admin@exemplo.com" />
+      </label>
+      <label>
+        <span>Senha</span>
+        <input type="password" formControlName="senha" placeholder="Admin@123" />
+      </label>
+      <button type="submit" [disabled]="adminLoading()">{{ adminLoading() ? 'Enviando...' : 'Criar ADMIN' }}</button>
+    </form>
+
+    <p *ngIf="adminFeedback()" class="feedback">{{ adminFeedback() }}</p>
+  </article>
+
+  <article class="card">
+    <header class="card-title">
+      <p class="badge">Produtos</p>
+      <div class="actions">
+        <button type="button" class="link" (click)="carregarProdutos()" [disabled]="loadingProdutos()">
+          Recarregar
+        </button>
+      </div>
+      <h2>Disponíveis para compra</h2>
+    </header>
+
+    <div class="products" *ngIf="!loadingProdutos(); else loadingProdutosTpl">
+      <p *ngIf="!produtos().length" class="muted">Nenhum item publicado ainda.</p>
+      <div class="product-grid">
+        <div class="product" *ngFor="let produto of produtos()">
+          <div class="product-img" *ngIf="produto.fotoUrl">
+            <img [src]="produto.fotoUrl" [alt]="produto.nome" />
+          </div>
+          <div class="product-info">
+            <h3>{{ produto.nome }}</h3>
+            <p>{{ produto.tamanho }} • {{ produto.cor }}</p>
+            <p class="price">R$ {{ produto.preco | number: '1.2-2' }}</p>
+            <small>Estoque: {{ produto.quantidadeEstoque ?? 0 }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #loadingProdutosTpl>
+      <p class="muted">Carregando produtos...</p>
+    </ng-template>
+
+    <section *ngIf="isClient()" class="orders-flow">
+      <h3>Passo 6) Criar pedido como CLIENTE</h3>
+      <p class="muted">Selecione o item publicado e a quantidade para gerar um pedido que o ADMIN poderá pagar.</p>
+
+      <form [formGroup]="pedidoForm" (ngSubmit)="criarPedido()" class="product-form" novalidate>
+        <label>
+          <span>Produto</span>
+          <select formControlName="produtoId">
+            <option value="" disabled>Escolha um produto</option>
+            <option *ngFor="let produto of produtos()" [value]="produto.id">{{ produto.nome }}</option>
+          </select>
+        </label>
+        <label>
+          <span>Quantidade</span>
+          <input type="number" min="1" formControlName="quantidade" />
+        </label>
+        <button type="submit">Criar pedido</button>
+      </form>
+
+      <p *ngIf="pedidoAcaoFeedback()" class="feedback">{{ pedidoAcaoFeedback() }}</p>
+    </section>
+  </article>
+
+  <article class="card" *ngIf="isAdmin() || isClient()">
+    <header class="card-title">
+      <p class="badge">Pedidos</p>
+      <div class="actions">
+        <button type="button" class="link" (click)="carregarPedidos()" [disabled]="loadingPedidos()">
+          Atualizar
+        </button>
+      </div>
+      <h2>{{ isAdmin() ? 'Todos os pedidos' : 'Meus pedidos' }}</h2>
+    </header>
+
+    <div class="orders" *ngIf="!loadingPedidos(); else loadingPedidosTpl">
+      <p *ngIf="pedidoFeedback()" class="feedback">{{ pedidoFeedback() }}</p>
+      <p *ngIf="!pedidos().length && !pedidoFeedback()" class="muted">Nenhum pedido encontrado.</p>
+
+      <ul class="order-list">
+        <li *ngFor="let pedido of pedidos()">
+          <div class="order-head">
+            <span>Pedido {{ pedido.id ?? '—' }}</span>
+            <span class="status">{{ pedido.status ?? 'SEM STATUS' }}</span>
+          </div>
+          <p class="muted">Cliente: {{ pedido.usuarioId }}</p>
+          <ul class="order-items">
+            <li *ngFor="let item of pedido.itens">{{ nomeDoProduto(item.produtoId) }} ({{ item.produtoId }}) x{{ item.quantidade }}</li>
+          </ul>
+          <button *ngIf="isAdmin() && pedido.id" type="button" class="link" (click)="selecionarPedido(pedido.id)">
+            Usar este pedido no passo 7 (pagar)
+          </button>
+        </li>
+      </ul>
+    </div>
+    <ng-template #loadingPedidosTpl>
+      <p class="muted">Carregando pedidos...</p>
+    </ng-template>
+  </article>
+
+  <article class="card" *ngIf="isAdmin()">
+    <header class="card-title">
+      <p class="badge">Admin</p>
+      <h2>Passo 7) Registrar pagamento</h2>
+    </header>
+
+    <p class="muted">Use o ID do pedido do cliente ou clique em um pedido da lista para preencher automaticamente.</p>
+
+    <form [formGroup]="pagamentoForm" (ngSubmit)="pagarPedido()" class="product-form" novalidate>
+      <label>
+        <span>ID do pedido</span>
+        <input type="text" formControlName="pedidoId" placeholder="UUID do pedido" />
+      </label>
+      <label>
+        <span>Método</span>
+        <input type="text" formControlName="metodo" placeholder="PIX" />
+      </label>
+      <label>
+        <span>Referência</span>
+        <input type="text" formControlName="referencia" placeholder="pgto-..." />
+      </label>
+      <button type="submit" [disabled]="pagamentoLoading()">{{ pagamentoLoading() ? 'Enviando...' : 'Pagar pedido' }}</button>
+    </form>
+
+    <p *ngIf="pagamentoFeedback()" class="feedback">{{ pagamentoFeedback() }}</p>
+  </article>
+</section>
