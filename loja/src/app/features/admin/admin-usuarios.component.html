@@ -1,24 +1,38 @@
-<section class="panel">
-  <p class="badge">Cadastrar admin</p>
-  <h1>Novo administrador</h1>
-  <p class="muted">Use este formulário para criar contas com role ADMIN.</p>
+<section class="wrapper">
+  <div class="hero">
+    <p class="eyebrow">Equipe</p>
+    <h1>Novo administrador</h1>
+    <p class="muted">Crie contas com role ADMIN e mantenha o time organizado.</p>
+  </div>
 
-  <article class="card">
-    <form [formGroup]="adminForm" (ngSubmit)="registrarAdmin()" class="form" novalidate>
-      <label>
-        <span>Nome</span>
-        <input type="text" formControlName="nome" placeholder="Admin Demo" />
-      </label>
-      <label>
-        <span>Email</span>
-        <input type="email" formControlName="email" placeholder="admin@exemplo.com" />
-      </label>
-      <label>
-        <span>Senha</span>
-        <input type="password" formControlName="senha" placeholder="Admin@123" />
-      </label>
-      <button type="submit" [disabled]="loading()">{{ loading() ? 'Enviando...' : 'Criar ADMIN' }}</button>
-    </form>
-    <p *ngIf="feedback()" class="feedback">{{ feedback() }}</p>
-  </article>
+  <mat-card class="form-card">
+    <mat-card-header>
+      <div mat-card-avatar class="avatar"><mat-icon>admin_panel_settings</mat-icon></div>
+      <mat-card-title>Cadastro</mat-card-title>
+      <mat-card-subtitle>Preencha os dados e salve</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="adminForm" (ngSubmit)="registrarAdmin()" class="form" novalidate>
+        <mat-form-field appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput type="text" formControlName="nome" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input matInput type="password" formControlName="senha" />
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit" [disabled]="loading()">
+          <mat-icon>person_add</mat-icon>
+          {{ loading() ? 'Enviando...' : 'Criar ADMIN' }}
+        </button>
+      </form>
+      <p class="feedback" *ngIf="feedback()">{{ feedback() }}</p>
+    </mat-card-content>
+  </mat-card>
 </section>

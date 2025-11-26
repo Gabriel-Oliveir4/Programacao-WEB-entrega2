@@ -1,104 +1,151 @@
-<section class="panel">
-  <header>
+<section class="hero">
+  <div class="hero__text">
+    <p class="eyebrow">Estoque</p>
+    <h1>Produtos publicados</h1>
+    <p class="muted">Edite, ative ou movimente estoque. Use o atalho para cadastrar rapidamente.</p>
+  </div>
+  <button mat-flat-button color="primary" (click)="carregarProdutos()" [disabled]="loadingProdutos()">
+    <mat-icon>refresh</mat-icon>
+    Atualizar
+  </button>
+</section>
+
+<section class="cards" *ngIf="produtos().length; else vazio">
+  <mat-card class="produto-card" *ngFor="let produto of produtos()">
+    <mat-card-header>
+      <div mat-card-avatar class="avatar">
+        <mat-icon>inventory_2</mat-icon>
+      </div>
+      <mat-card-title>{{ produto.nome }}</mat-card-title>
+      <mat-card-subtitle>{{ produto.tamanho }} • {{ produto.cor }}</mat-card-subtitle>
+      <mat-chip-set aria-label="status" class="status">
+        <mat-chip [color]="produto.ativo === false ? 'warn' : 'primary'" appearance="outlined">{{ produto.ativo === false ? 'Inativo' : 'Ativo' }}</mat-chip>
+      </mat-chip-set>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p class="price">R$ {{ produto.preco | number: '1.2-2' }}</p>
+      <p class="muted">Estoque: {{ produto.quantidadeEstoque ?? 0 }}</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-stroked-button color="primary" (click)="abrirDialogo(0, produto)">
+        <mat-icon>edit</mat-icon>
+        Editar
+      </button>
+      <button mat-stroked-button color="accent" (click)="abrirDialogo(1, produto)">
+        <mat-icon>sync_alt</mat-icon>
+        Movimentar
+      </button>
+      <span class="spacer"></span>
+      <button mat-button color="warn" (click)="alternarVisibilidade(produto)">
+        <mat-icon>{{ produto.ativo === false ? 'visibility' : 'visibility_off' }}</mat-icon>
+        {{ produto.ativo === false ? 'Ativar' : 'Desativar' }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</section>
+
+<ng-template #vazio>
+  <div class="empty">
+    <p class="muted">Nenhum produto cadastrado.</p>
+    <button mat-raised-button color="primary" (click)="abrirDialogo(0)">Cadastrar produto</button>
+  </div>
+</ng-template>
+
+<div class="fab-wrapper">
+  <button mat-fab color="primary" aria-label="Abrir ações de estoque" (click)="abrirDialogo(0)">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<ng-template #estoqueDialog>
+  <div class="dialog-header">
     <div>
-      <p class="badge">Gerenciar estoque</p>
-      <h1>Produtos</h1>
-      <p class="muted">Cadastre novos itens, edite dados ou ajuste o saldo de estoque.</p>
+      <p class="eyebrow">Ações rápidas</p>
+      <h3>{{ selectedProdutoId() ? 'Editar ou movimentar ' : 'Cadastrar produto/estoque' }}</h3>
     </div>
-    <button type="button" class="ghost" (click)="carregarProdutos()" [disabled]="loadingProdutos()">Recarregar</button>
-  </header>
-
-  <div class="layout">
-    <article class="card">
-      <h2>{{ selectedProdutoId() ? 'Editar produto' : 'Novo produto' }}</h2>
-      <form [formGroup]="produtoForm" (ngSubmit)="salvarProduto()" class="form" novalidate>
-        <label>
-          <span>Nome</span>
-          <input type="text" formControlName="nome" placeholder="Tapete Azul" />
-        </label>
-        <label>
-          <span>Tamanho</span>
-          <input type="text" formControlName="tamanho" placeholder="2x3" />
-        </label>
-        <label>
-          <span>Cor</span>
-          <input type="text" formControlName="cor" placeholder="Azul" />
-        </label>
-        <label>
-          <span>Preço</span>
-          <input type="number" formControlName="preco" min="0" step="0.01" />
-        </label>
-        <label>
-          <span>Estoque</span>
-          <input type="number" formControlName="quantidadeEstoque" min="0" />
-        </label>
-        <label>
-          <span>Foto (URL)</span>
-          <input type="url" formControlName="fotoUrl" placeholder="https://..." />
-        </label>
-
-        <div class="actions">
-          <button type="submit">{{ selectedProdutoId() ? 'Salvar alterações' : 'Criar produto' }}</button>
-          <button type="button" class="ghost" (click)="cancelarEdicao()" *ngIf="selectedProdutoId()">Cancelar</button>
-        </div>
-      </form>
-      <p *ngIf="feedback()" class="feedback">{{ feedback() }}</p>
-    </article>
-
-    <article class="card">
-      <h2>Estoque</h2>
-      <form [formGroup]="movimentoForm" (ngSubmit)="registrarMovimento()" class="form" novalidate>
-        <label>
-          <span>Produto</span>
-          <select formControlName="produtoId">
-            <option value="" disabled>Selecione</option>
-            <option *ngFor="let produto of produtos()" [value]="produto.id">{{ produto.nome }}</option>
-          </select>
-        </label>
-        <label>
-          <span>Quantidade</span>
-          <input type="number" formControlName="qtd" min="1" />
-        </label>
-        <label>
-          <span>Tipo</span>
-          <select formControlName="tipo">
-            <option value="entrada">Entrada</option>
-            <option value="saida">Saída</option>
-          </select>
-        </label>
-        <button type="submit">Registrar</button>
-      </form>
-
-      <p *ngIf="movimentoFeedback()" class="feedback">{{ movimentoFeedback() }}</p>
-    </article>
+    <button mat-icon-button mat-dialog-close aria-label="Fechar">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
 
-  <article class="card list">
-    <div class="list-head">
-      <h2>Itens cadastrados</h2>
-      <span class="muted">Clique para editar, ativar ou desativar.</span>
-    </div>
-    <p *ngIf="loadingProdutos()" class="muted">Carregando produtos...</p>
-    <p *ngIf="!loadingProdutos() && !produtos().length" class="muted">Nenhum produto cadastrado.</p>
+  <mat-tab-group [(selectedIndex)]="dialogTabIndex">
+    <mat-tab label="Produto">
+      <div class="tab-content">
+        <form [formGroup]="produtoForm" (ngSubmit)="salvarProduto()" class="form" novalidate>
+          <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input matInput type="text" formControlName="nome" />
+          </mat-form-field>
 
-    <div class="product-grid">
-      <div class="product" *ngFor="let produto of produtos()">
-        <div class="product-info">
-          <div class="product-head">
-            <h3>{{ produto.nome }}</h3>
-            <span class="status" [class.inactive]="produto.ativo === false">{{ produto.ativo === false ? 'Inativo' : 'Ativo' }}</span>
+          <div class="grid-2">
+            <mat-form-field appearance="outline">
+              <mat-label>Tamanho</mat-label>
+              <input matInput type="text" formControlName="tamanho" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Cor</mat-label>
+              <input matInput type="text" formControlName="cor" />
+            </mat-form-field>
           </div>
-          <p class="muted">{{ produto.tamanho }} • {{ produto.cor }}</p>
-          <p class="price">R$ {{ produto.preco | number: '1.2-2' }}</p>
-          <p class="muted">Estoque: {{ produto.quantidadeEstoque ?? 0 }}</p>
-          <div class="actions">
-            <button type="button" (click)="editar(produto)">Editar</button>
-            <button type="button" class="ghost" (click)="alternarVisibilidade(produto)">
-              {{ produto.ativo === false ? 'Ativar' : 'Desativar' }}
+
+          <div class="grid-2">
+            <mat-form-field appearance="outline">
+              <mat-label>Preço</mat-label>
+              <input matInput type="number" formControlName="preco" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Estoque</mat-label>
+              <input matInput type="number" formControlName="quantidadeEstoque" />
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Foto (URL)</mat-label>
+            <input matInput type="url" formControlName="fotoUrl" />
+          </mat-form-field>
+
+          <div class="form-actions">
+            <button mat-flat-button color="primary" type="submit">
+              {{ selectedProdutoId() ? 'Salvar alterações' : 'Publicar produto' }}
             </button>
+            <button mat-button type="button" (click)="resetProdutoForm()" *ngIf="selectedProdutoId()">Limpar</button>
           </div>
-        </div>
+        </form>
+        <p class="feedback" *ngIf="feedback()">{{ feedback() }}</p>
       </div>
-    </div>
-  </article>
-</section>
+    </mat-tab>
+
+    <mat-tab label="Estoque">
+      <div class="tab-content">
+        <form [formGroup]="movimentoForm" (ngSubmit)="registrarMovimento()" class="form" novalidate>
+          <mat-form-field appearance="outline">
+            <mat-label>Produto</mat-label>
+            <mat-select formControlName="produtoId">
+              <mat-option value="" disabled>Selecione</mat-option>
+              <mat-option *ngFor="let produto of produtos()" [value]="produto.id">{{ produto.nome }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="grid-2">
+            <mat-form-field appearance="outline">
+              <mat-label>Quantidade</mat-label>
+              <input matInput type="number" formControlName="qtd" />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo</mat-label>
+              <mat-select formControlName="tipo">
+                <mat-option value="entrada">Entrada</mat-option>
+                <mat-option value="saida">Saída</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <button mat-flat-button color="accent" type="submit">Registrar</button>
+        </form>
+        <p class="feedback" *ngIf="movimentoFeedback()">{{ movimentoFeedback() }}</p>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>

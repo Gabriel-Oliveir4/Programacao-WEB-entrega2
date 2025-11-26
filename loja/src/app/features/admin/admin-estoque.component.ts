@@ -1,6 +1,15 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { ProdutoService } from '../../core/services/produto.service';
 import { Produto, ProdutoRequest } from '../../core/models/produto';
@@ -10,7 +19,19 @@ import { EstoqueMovimentoRequest } from '../../core/models/estoque';
 @Component({
   selector: 'app-admin-estoque',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatChipsModule
+  ],
   templateUrl: './admin-estoque.component.html',
   styleUrl: './admin-estoque.component.css'
 })
@@ -18,12 +39,16 @@ export class AdminEstoqueComponent implements OnInit {
   private readonly produtoService = inject(ProdutoService);
   private readonly estoqueService = inject(EstoqueService);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly dialog = inject(MatDialog);
+
+  @ViewChild('estoqueDialog') estoqueDialog?: TemplateRef<unknown>;
 
   protected readonly produtos = signal<Produto[]>([]);
   protected readonly loadingProdutos = signal(false);
   protected readonly feedback = signal<string | null>(null);
   protected readonly movimentoFeedback = signal<string | null>(null);
   protected readonly selectedProdutoId = signal<string | null>(null);
+  protected dialogTabIndex = 0;
 
   protected produtoForm = this.formBuilder.nonNullable.group({
     nome: ['', [Validators.required, Validators.minLength(2)]],
@@ -67,6 +92,28 @@ export class AdminEstoqueComponent implements OnInit {
     });
   }
 
+  abrirDialogo(tabIndex = 0, produto?: Produto): void {
+    if (produto) {
+      this.editar(produto, false);
+    } else {
+      this.resetProdutoForm();
+    }
+
+    if (tabIndex === 1 && produto?.id) {
+      this.movimentoForm.patchValue({ produtoId: produto.id });
+    }
+
+    this.dialogTabIndex = tabIndex;
+    if (this.estoqueDialog) {
+      this.dialog.open(this.estoqueDialog, { panelClass: 'estoque-dialog', width: '720px' });
+    }
+  }
+
+  resetProdutoForm(): void {
+    this.selectedProdutoId.set(null);
+    this.produtoForm.reset({ preco: 0, quantidadeEstoque: 0 });
+  }
+
   salvarProduto(): void {
     if (this.produtoForm.invalid) {
       this.produtoForm.markAllAsTouched();
@@ -83,8 +130,7 @@ export class AdminEstoqueComponent implements OnInit {
     request$.subscribe({
       next: (produto) => {
         this.feedback.set(this.selectedProdutoId() ? 'Produto atualizado com sucesso.' : 'Produto criado e publicado.');
-        this.produtoForm.reset({ preco: 0, quantidadeEstoque: 0 });
-        this.selectedProdutoId.set(null);
+        this.resetProdutoForm();
         this.carregarProdutos();
 
         if (!this.movimentoForm.controls.produtoId.value) {
@@ -97,7 +143,7 @@ export class AdminEstoqueComponent implements OnInit {
     });
   }
 
-  editar(produto: Produto): void {
+  editar(produto: Produto, openDialog = true): void {
     this.selectedProdutoId.set(produto.id ?? null);
     this.produtoForm.patchValue({
       nome: produto.nome ?? '',
@@ -107,11 +153,10 @@ export class AdminEstoqueComponent implements OnInit {
       quantidadeEstoque: produto.quantidadeEstoque ?? 0,
       fotoUrl: produto.fotoUrl ?? ''
     });
-  }
 
-  cancelarEdicao(): void {
-    this.selectedProdutoId.set(null);
-    this.produtoForm.reset({ preco: 0, quantidadeEstoque: 0 });
+    if (openDialog) {
+      this.abrirDialogo(0, produto);
+    }
   }
 
   alternarVisibilidade(produto: Produto): void {

@@ -1,13 +1,32 @@
-<div class="admin-shell">
-  <header class="admin-navbar">
-    <div class="brand">La Couro Admin</div>
-    <nav>
-      <a routerLink="/admin/painel" routerLinkActive="active">Painel do admin</a>
-      <a routerLink="/admin/estoque" routerLinkActive="active">Gerenciar estoque</a>
-      <a routerLink="/admin/cadastrar-admin" routerLinkActive="active">Cadastrar admin</a>
+<div class="admin-surface">
+  <mat-toolbar class="admin-toolbar" color="primary">
+    <div class="toolbar-brand">
+      <mat-icon fontIcon="stadia_controller"></mat-icon>
+      <div class="brand-text">
+        <span class="brand-name">La Couro</span>
+        <small>Admin</small>
+      </div>
+    </div>
+
+    <nav class="toolbar-links">
+      <a mat-button routerLink="/admin/painel" routerLinkActive="active">Painel</a>
+      <a mat-button routerLink="/admin/estoque" routerLinkActive="active">Estoque</a>
+      <a mat-button routerLink="/admin/cadastrar-admin" routerLinkActive="active">Cadastrar admin</a>
     </nav>
-    <button type="button" class="logout" (click)="logout()">Sair</button>
-  </header>
+
+    <button mat-flat-button color="accent" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Sair
+    </button>
+  </mat-toolbar>
+
+  <section class="admin-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Backoffice</p>
+      <h2>Controle central</h2>
+      <p>Gerencie pedidos, estoque e administradores em um visual mais limpo.</p>
+    </div>
+  </section>
 
   <main class="admin-content">
     <router-outlet />

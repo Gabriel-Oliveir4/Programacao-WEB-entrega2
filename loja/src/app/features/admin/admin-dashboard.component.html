@@ -1,67 +1,57 @@
-<section class="panel">
-  <header>
-    <div>
-      <p class="badge">Painel do admin</p>
-      <h1>Pedidos dos clientes</h1>
-      <p class="muted">Visualize todos os pedidos e registre pagamentos quando necessário.</p>
-    </div>
-    <div class="actions">
-      <button type="button" (click)="carregarPedidos()" [disabled]="loadingPedidos()">Atualizar pedidos</button>
-      <button type="button" class="ghost" (click)="carregarProdutos()" [disabled]="loadingProdutos()">
-        Atualizar produtos
-      </button>
-    </div>
-  </header>
-
-  <div class="layout">
-    <article class="card orders">
-      <h2>Pedidos</h2>
-      <p *ngIf="pedidoFeedback()" class="feedback">{{ pedidoFeedback() }}</p>
-      <p *ngIf="loadingPedidos()" class="muted">Carregando pedidos...</p>
-      <p *ngIf="!loadingPedidos() && !pedidos().length" class="muted">Nenhum pedido encontrado.</p>
-
-      <ul class="order-list">
-        <li *ngFor="let pedido of pedidos()">
-          <div class="order-head">
-            <div>
-              <strong>Pedido {{ pedido.id }}</strong>
-              <p class="muted">Cliente: {{ pedido.usuarioId }}</p>
-            </div>
-            <span class="status">{{ pedido.status ?? 'SEM STATUS' }}</span>
-          </div>
-
-          <ul class="order-items">
-            <li *ngFor="let item of pedido.itens">
-              {{ nomeDoProduto(item.produtoId) }} ({{ item.produtoId }}) x{{ item.quantidade }}
-            </li>
-          </ul>
-
-          <button type="button" class="link" (click)="selecionarPedido(pedido.id)">Usar no formulário de pagamento</button>
-        </li>
-      </ul>
-    </article>
-
-    <article class="card payment">
-      <h2>Registrar pagamento</h2>
-      <p class="muted">Cole o ID do pedido ou selecione na lista ao lado.</p>
-
-      <form [formGroup]="pagamentoForm" (ngSubmit)="pagarPedido()" class="form" novalidate>
-        <label>
-          <span>ID do pedido</span>
-          <input type="text" formControlName="pedidoId" placeholder="UUID" />
-        </label>
-        <label>
-          <span>Método</span>
-          <input type="text" formControlName="metodo" placeholder="PIX" />
-        </label>
-        <label>
-          <span>Referência</span>
-          <input type="text" formControlName="referencia" placeholder="pgto-..." />
-        </label>
-        <button type="submit" [disabled]="pagamentoLoading()">{{ pagamentoLoading() ? 'Registrando...' : 'Registrar pagamento' }}</button>
-      </form>
-
-      <p *ngIf="pagamentoFeedback()" class="feedback">{{ pagamentoFeedback() }}</p>
-    </article>
+<section class="hero">
+  <div class="hero__copy">
+    <p class="eyebrow">Painel do admin</p>
+    <h1>Pedidos da loja</h1>
+    <p class="muted">Acompanhe tudo o que foi comprado e filtre por status para encontrar rápido.</p>
+  </div>
+  <div class="hero__actions">
+    <button mat-raised-button color="primary" (click)="carregarPedidos()" [disabled]="loadingPedidos()">
+      <mat-icon>refresh</mat-icon>
+      Atualizar pedidos
+    </button>
+    <button mat-stroked-button color="primary" (click)="carregarProdutos()" [disabled]="loadingProdutos()">
+      <mat-icon>inventory_2</mat-icon>
+      Atualizar produtos
+    </button>
   </div>
 </section>
+
+<section class="filters">
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Status</mat-label>
+    <mat-select [value]="statusFiltro()" (selectionChange)="statusFiltro.set($event.value)">
+      <mat-option *ngFor="let status of statusDisponiveis()" [value]="status">{{ status }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</section>
+
+<div class="feedback" *ngIf="pedidoFeedback()">{{ pedidoFeedback() }}</div>
+<div class="loading" *ngIf="loadingPedidos()">
+  <mat-spinner diameter="32"></mat-spinner>
+  <span>Carregando pedidos...</span>
+</div>
+<p class="muted" *ngIf="!loadingPedidos() && !pedidosFiltrados().length">Nenhum pedido encontrado para este filtro.</p>
+
+<div class="order-grid" *ngIf="!loadingPedidos() && pedidosFiltrados().length">
+  <mat-card class="order-card" *ngFor="let pedido of pedidosFiltrados()">
+    <mat-card-header>
+      <div mat-card-avatar class="avatar"><mat-icon>shopping_bag</mat-icon></div>
+      <mat-card-title>Pedido {{ pedido.id }}</mat-card-title>
+      <mat-card-subtitle>Cliente: {{ pedido.usuarioId }}</mat-card-subtitle>
+      <mat-chip-set aria-label="status do pedido" class="status-chip">
+        <mat-chip color="primary" appearance="outlined">{{ pedido.status ?? 'SEM STATUS' }}</mat-chip>
+      </mat-chip-set>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="items-title">Itens</div>
+      <ul>
+        <li *ngFor="let item of pedido.itens">
+          <mat-icon fontIcon="radio_button_unchecked"></mat-icon>
+          <span>{{ nomeDoProduto(item.produtoId) }}</span>
+          <span class="muted">x{{ item.quantidade }}</span>
+        </li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</div>

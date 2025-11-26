@@ -1,58 +1,81 @@
-.admin-shell {
+:host {
+  display: block;
   min-height: 100vh;
-  background: #f7f7f7;
+  background: radial-gradient(circle at 15% 20%, rgba(0, 120, 255, 0.22), transparent 30%),
+    radial-gradient(circle at 80% 0%, rgba(139, 92, 246, 0.28), transparent 30%),
+    #0a1024;
 }
 
-.admin-navbar {
+.admin-surface {
+  min-height: 100vh;
+  color: #e2e8f0;
+}
+
+.admin-toolbar {
+  background: linear-gradient(120deg, #0a0f23, #101835, #0b1b45);
+  padding-inline: 1.25rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.toolbar-brand {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
-  background: #0f172a;
-  color: #fff;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  gap: 0.65rem;
+  letter-spacing: 0.02em;
 }
 
-.admin-navbar .brand {
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-.admin-navbar nav {
+.brand-text {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  line-height: 1.1;
 }
 
-.admin-navbar a {
-  color: #e2e8f0;
-  text-decoration: none;
-  font-weight: 500;
+.brand-name {
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.95rem;
 }
 
-.admin-navbar a.active {
-  color: #38bdf8;
+.toolbar-links {
+  display: flex;
+  gap: 0.5rem;
 }
 
-.logout {
-  border: 1px solid #94a3b8;
-  background: transparent;
-  color: #e2e8f0;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+.toolbar-links a.active {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
 }
 
-.logout:hover {
-  background: #e2e8f0;
-  color: #0f172a;
+.admin-hero {
+  padding: 1.25rem 1.5rem 0.5rem;
+}
+
+.hero-copy {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.08));
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 18px;
+  padding: 1rem 1.25rem;
+  max-width: 520px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.hero-copy h2 {
+  margin: 0.25rem 0;
+  font-size: 1.4rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: #93c5fd;
+  margin: 0;
 }
 
 .admin-content {
-  padding: 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 1rem 1.5rem 2.5rem;
+}
+
+button[mat-flat-button] mat-icon {
+  margin-right: 0.35rem;
 }
