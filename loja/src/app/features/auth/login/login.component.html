@@ -1,0 +1,30 @@
+<section class="login-card">
+  <header>
+    <h1>Entrar</h1>
+    <p>Acesse com o mesmo usuário da API La Couro.</p>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <label class="field">
+      <span>Email</span>
+      <input type="email" formControlName="email" placeholder="admin@lacouro.com" />
+      <small *ngIf="form.controls.email.invalid && form.controls.email.touched">
+        Informe um email válido.
+      </small>
+    </label>
+
+    <label class="field">
+      <span>Senha</span>
+      <input type="password" formControlName="senha" placeholder="••••••••" />
+      <small *ngIf="form.controls.senha.invalid && form.controls.senha.touched">
+        Senha obrigatória (mínimo 4 caracteres).
+      </small>
+    </label>
+
+    <button type="submit" [disabled]="loading()">
+      {{ loading() ? 'Entrando...' : 'Entrar' }}
+    </button>
+
+    <p *ngIf="feedback()" class="feedback">{{ feedback() }}</p>
+  </form>
+</section>

@@ -1,0 +1,22 @@
+<section class="welcome">
+  <div>
+    <h1>Integração com a API La Couro</h1>
+    <p>
+      Faça login para que o interceptor injete automaticamente o token nas chamadas e depois
+      consuma os serviços de usuários, produtos, pedidos e estoque.
+    </p>
+    <div class="actions">
+      <a routerLink="/login">Refazer login</a>
+      <a href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noreferrer">
+        Abrir Swagger
+      </a>
+    </div>
+  </div>
+  <ul>
+    <li>Auth: <code>/api/auth/login</code> e <code>/api/auth/register</code></li>
+    <li>Usuários: <code>/api/usuarios</code> (listagem, admin, desativação)</li>
+    <li>Produtos: <code>/api/produtos</code> (CRUD e visibilidade)</li>
+    <li>Estoque: <code>/api/estoque/entrada|saida</code></li>
+    <li>Pedidos: <code>/api/pedidos</code> (criar, pagar, cancelar)</li>
+  </ul>
+</section>
