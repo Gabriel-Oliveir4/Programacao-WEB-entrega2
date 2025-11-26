@@ -1,0 +1,54 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f3e8ff, #e0f2fe);
+}
+
+.app-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.app-shell.fullscreen {
+  max-width: 900px;
+  padding-top: 3rem;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.brand {
+  font-weight: 700;
+  color: #6d28d9;
+  font-size: 1.25rem;
+}
+
+nav {
+  display: flex;
+  gap: 0.75rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: #111827;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+}
+
+nav a.active,
+nav a:hover {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+.app-content {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+}

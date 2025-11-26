@@ -1,0 +1,24 @@
+<section class="panel">
+  <p class="badge">Cadastrar admin</p>
+  <h1>Novo administrador</h1>
+  <p class="muted">Use este formulário para criar contas com role ADMIN.</p>
+
+  <article class="card">
+    <form [formGroup]="adminForm" (ngSubmit)="registrarAdmin()" class="form" novalidate>
+      <label>
+        <span>Nome</span>
+        <input type="text" formControlName="nome" placeholder="Admin Demo" />
+      </label>
+      <label>
+        <span>Email</span>
+        <input type="email" formControlName="email" placeholder="admin@exemplo.com" />
+      </label>
+      <label>
+        <span>Senha</span>
+        <input type="password" formControlName="senha" placeholder="Admin@123" />
+      </label>
+      <button type="submit" [disabled]="loading()">{{ loading() ? 'Enviando...' : 'Criar ADMIN' }}</button>
+    </form>
+    <p *ngIf="feedback()" class="feedback">{{ feedback() }}</p>
+  </article>
+</section>

@@ -1,0 +1,15 @@
+<div class="admin-shell">
+  <header class="admin-navbar">
+    <div class="brand">La Couro Admin</div>
+    <nav>
+      <a routerLink="/admin/painel" routerLinkActive="active">Painel do admin</a>
+      <a routerLink="/admin/estoque" routerLinkActive="active">Gerenciar estoque</a>
+      <a routerLink="/admin/cadastrar-admin" routerLinkActive="active">Cadastrar admin</a>
+    </nav>
+    <button type="button" class="logout" (click)="logout()">Sair</button>
+  </header>
+
+  <main class="admin-content">
+    <router-outlet />
+  </main>
+</div>

@@ -1,0 +1,67 @@
+<section class="panel">
+  <header>
+    <div>
+      <p class="badge">Painel do admin</p>
+      <h1>Pedidos dos clientes</h1>
+      <p class="muted">Visualize todos os pedidos e registre pagamentos quando necessário.</p>
+    </div>
+    <div class="actions">
+      <button type="button" (click)="carregarPedidos()" [disabled]="loadingPedidos()">Atualizar pedidos</button>
+      <button type="button" class="ghost" (click)="carregarProdutos()" [disabled]="loadingProdutos()">
+        Atualizar produtos
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <article class="card orders">
+      <h2>Pedidos</h2>
+      <p *ngIf="pedidoFeedback()" class="feedback">{{ pedidoFeedback() }}</p>
+      <p *ngIf="loadingPedidos()" class="muted">Carregando pedidos...</p>
+      <p *ngIf="!loadingPedidos() && !pedidos().length" class="muted">Nenhum pedido encontrado.</p>
+
+      <ul class="order-list">
+        <li *ngFor="let pedido of pedidos()">
+          <div class="order-head">
+            <div>
+              <strong>Pedido {{ pedido.id }}</strong>
+              <p class="muted">Cliente: {{ pedido.usuarioId }}</p>
+            </div>
+            <span class="status">{{ pedido.status ?? 'SEM STATUS' }}</span>
+          </div>
+
+          <ul class="order-items">
+            <li *ngFor="let item of pedido.itens">
+              {{ nomeDoProduto(item.produtoId) }} ({{ item.produtoId }}) x{{ item.quantidade }}
+            </li>
+          </ul>
+
+          <button type="button" class="link" (click)="selecionarPedido(pedido.id)">Usar no formulário de pagamento</button>
+        </li>
+      </ul>
+    </article>
+
+    <article class="card payment">
+      <h2>Registrar pagamento</h2>
+      <p class="muted">Cole o ID do pedido ou selecione na lista ao lado.</p>
+
+      <form [formGroup]="pagamentoForm" (ngSubmit)="pagarPedido()" class="form" novalidate>
+        <label>
+          <span>ID do pedido</span>
+          <input type="text" formControlName="pedidoId" placeholder="UUID" />
+        </label>
+        <label>
+          <span>Método</span>
+          <input type="text" formControlName="metodo" placeholder="PIX" />
+        </label>
+        <label>
+          <span>Referência</span>
+          <input type="text" formControlName="referencia" placeholder="pgto-..." />
+        </label>
+        <button type="submit" [disabled]="pagamentoLoading()">{{ pagamentoLoading() ? 'Registrando...' : 'Registrar pagamento' }}</button>
+      </form>
+
+      <p *ngIf="pagamentoFeedback()" class="feedback">{{ pagamentoFeedback() }}</p>
+    </article>
+  </div>
+</section>

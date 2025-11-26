@@ -1,0 +1,58 @@
+.admin-shell {
+  min-height: 100vh;
+  background: #f7f7f7;
+}
+
+.admin-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: #0f172a;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.admin-navbar .brand {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.admin-navbar nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-navbar a {
+  color: #e2e8f0;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.admin-navbar a.active {
+  color: #38bdf8;
+}
+
+.logout {
+  border: 1px solid #94a3b8;
+  background: transparent;
+  color: #e2e8f0;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.logout:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.admin-content {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}

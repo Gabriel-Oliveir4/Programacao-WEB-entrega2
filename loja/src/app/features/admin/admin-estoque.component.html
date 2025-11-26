@@ -1,0 +1,104 @@
+<section class="panel">
+  <header>
+    <div>
+      <p class="badge">Gerenciar estoque</p>
+      <h1>Produtos</h1>
+      <p class="muted">Cadastre novos itens, edite dados ou ajuste o saldo de estoque.</p>
+    </div>
+    <button type="button" class="ghost" (click)="carregarProdutos()" [disabled]="loadingProdutos()">Recarregar</button>
+  </header>
+
+  <div class="layout">
+    <article class="card">
+      <h2>{{ selectedProdutoId() ? 'Editar produto' : 'Novo produto' }}</h2>
+      <form [formGroup]="produtoForm" (ngSubmit)="salvarProduto()" class="form" novalidate>
+        <label>
+          <span>Nome</span>
+          <input type="text" formControlName="nome" placeholder="Tapete Azul" />
+        </label>
+        <label>
+          <span>Tamanho</span>
+          <input type="text" formControlName="tamanho" placeholder="2x3" />
+        </label>
+        <label>
+          <span>Cor</span>
+          <input type="text" formControlName="cor" placeholder="Azul" />
+        </label>
+        <label>
+          <span>Preço</span>
+          <input type="number" formControlName="preco" min="0" step="0.01" />
+        </label>
+        <label>
+          <span>Estoque</span>
+          <input type="number" formControlName="quantidadeEstoque" min="0" />
+        </label>
+        <label>
+          <span>Foto (URL)</span>
+          <input type="url" formControlName="fotoUrl" placeholder="https://..." />
+        </label>
+
+        <div class="actions">
+          <button type="submit">{{ selectedProdutoId() ? 'Salvar alterações' : 'Criar produto' }}</button>
+          <button type="button" class="ghost" (click)="cancelarEdicao()" *ngIf="selectedProdutoId()">Cancelar</button>
+        </div>
+      </form>
+      <p *ngIf="feedback()" class="feedback">{{ feedback() }}</p>
+    </article>
+
+    <article class="card">
+      <h2>Estoque</h2>
+      <form [formGroup]="movimentoForm" (ngSubmit)="registrarMovimento()" class="form" novalidate>
+        <label>
+          <span>Produto</span>
+          <select formControlName="produtoId">
+            <option value="" disabled>Selecione</option>
+            <option *ngFor="let produto of produtos()" [value]="produto.id">{{ produto.nome }}</option>
+          </select>
+        </label>
+        <label>
+          <span>Quantidade</span>
+          <input type="number" formControlName="qtd" min="1" />
+        </label>
+        <label>
+          <span>Tipo</span>
+          <select formControlName="tipo">
+            <option value="entrada">Entrada</option>
+            <option value="saida">Saída</option>
+          </select>
+        </label>
+        <button type="submit">Registrar</button>
+      </form>
+
+      <p *ngIf="movimentoFeedback()" class="feedback">{{ movimentoFeedback() }}</p>
+    </article>
+  </div>
+
+  <article class="card list">
+    <div class="list-head">
+      <h2>Itens cadastrados</h2>
+      <span class="muted">Clique para editar, ativar ou desativar.</span>
+    </div>
+    <p *ngIf="loadingProdutos()" class="muted">Carregando produtos...</p>
+    <p *ngIf="!loadingProdutos() && !produtos().length" class="muted">Nenhum produto cadastrado.</p>
+
+    <div class="product-grid">
+      <div class="product" *ngFor="let produto of produtos()">
+        <div class="product-info">
+          <div class="product-head">
+            <h3>{{ produto.nome }}</h3>
+            <span class="status" [class.inactive]="produto.ativo === false">{{ produto.ativo === false ? 'Inativo' : 'Ativo' }}</span>
+          </div>
+          <p class="muted">{{ produto.tamanho }} • {{ produto.cor }}</p>
+          <p class="price">R$ {{ produto.preco | number: '1.2-2' }}</p>
+          <p class="muted">Estoque: {{ produto.quantidadeEstoque ?? 0 }}</p>
+          <div class="actions">
+            <button type="button" (click)="editar(produto)">Editar</button>
+            <button type="button" class="ghost" (click)="alternarVisibilidade(produto)">
+              {{ produto.ativo === false ? 'Ativar' : 'Desativar' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>

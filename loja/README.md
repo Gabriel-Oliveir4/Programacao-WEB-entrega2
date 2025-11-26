@@ -2,15 +2,45 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
 
-## Development server
+## Como rodar o frontend
 
-To start a local development server, run:
+1. Instale as dependências (já estão commitadas em `package-lock.json`):
 
 ```bash
-ng serve
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+2. Garanta que o backend da La Couro esteja rodando em `http://localhost:8080`.
+
+3. Suba o servidor de desenvolvimento (ele usa um proxy local para encaminhar `/api` para `http://localhost:8080`, evitando erros de CORS durante o desenvolvimento):
+
+```bash
+npm start
+```
+
+Depois disso, acesse `http://localhost:4200/`. A aplicação recarrega automaticamente conforme você altera os arquivos.
+
+### Login e autenticação
+
+Conte com o proxy: a base das requisições (`environment.apiUrl`) é relativa, então todas as chamadas vão para o mesmo host da SPA (`/api/...`). Em desenvolvimento o proxy cuida de encaminhar para `http://localhost:8080` sem CORS; em produção você pode servir o frontend no mesmo host da API ou editar `src/environments/environment.ts` para um host absoluto.
+
+- A página de login está em `/login` e usa o endpoint `POST /api/auth/login` da API.
+- O token JWT retornado é salvo no `localStorage` e incluído automaticamente nas requisições seguintes pelo interceptor HTTP.
+- Se você quiser testar com um usuário existente, o backend cria o admin padrão `admin@lacouro.com` (senha definida no script de seed). Também é possível registrar um novo cliente via `POST /api/auth/register` diretamente pela API.
+
+### Fluxo sugerido de teste (espelha a coleção Postman)
+
+1. **Seed obrigatório**: garanta que o ADMIN inicial exista (via seed SQL), pois a API só permite criar novos admins autenticado como ADMIN.
+2. Abra `http://localhost:4200/login`.
+   - Como CLIENTE, use o formulário de cadastro da página para executar o passo 1 do Postman.
+   - Faça login como CLIENTE (passo 2) ou como ADMIN seed (passo 3).
+3. Após o login:
+   - ADMIN é enviado para `/admin/painel`, que traz uma navbar com os atalhos **Painel do admin**, **Gerenciar estoque** e **Cadastrar admin**.
+     - Em **Painel do admin** você acompanha todos os pedidos e pode registrar pagamentos (passo 7).
+     - Em **Gerenciar estoque** você cria ou edita produtos (passo 4) e ajusta o saldo de estoque.
+     - Em **Cadastrar admin** você cria novos administradores (passo 5).
+   - CLIENTE permanece na home protegida, escolhe um produto publicado e cria um pedido (passo 6).
+   - CLIENTE vê apenas os próprios pedidos (passo 8) e pode acompanhar o status.
 
 ## Code scaffolding
 

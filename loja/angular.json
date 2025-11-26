@@ -13,8 +13,8 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
-      "architect": {
-        "build": {
+  "architect": {
+    "build": {
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
@@ -58,12 +58,15 @@
             }
           },
           "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "loja:build:production"
+    },
+    "serve": {
+      "builder": "@angular/build:dev-server",
+      "options": {
+        "proxyConfig": "proxy.conf.json"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "loja:build:production"
             },
             "development": {
               "buildTarget": "loja:build:development"
