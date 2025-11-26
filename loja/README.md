@@ -2,15 +2,35 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
 
-## Development server
+## Como rodar o frontend
 
-To start a local development server, run:
+1. Instale as dependências (já estão commitadas em `package-lock.json`):
 
 ```bash
-ng serve
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+2. Garanta que o backend da La Couro esteja rodando em `http://localhost:8080` (ou ajuste `src/environments/environment.ts`).
+
+3. Suba o servidor de desenvolvimento:
+
+```bash
+npm start
+```
+
+Depois disso, acesse `http://localhost:4200/`. A aplicação recarrega automaticamente conforme você altera os arquivos.
+
+### Login e autenticação
+
+- A página de login está em `/login` e usa o endpoint `POST /api/auth/login` da API.
+- O token JWT retornado é salvo no `localStorage` e incluído automaticamente nas requisições seguintes pelo interceptor HTTP.
+- Se você quiser testar com um usuário existente, o backend cria o admin padrão `admin@lacouro.com` (senha definida no script de seed). Também é possível registrar um novo cliente via `POST /api/auth/register` diretamente pela API.
+
+### Fluxo sugerido de teste
+
+1. Com o backend ativo, abra `http://localhost:4200/login` e faça login com o admin inicial.
+2. Após autenticar, você é redirecionado para a home protegida; use os links para reabrir o login ou o Swagger.
+3. Com o token salvo, você já pode chamar os serviços tipados (usuários, produtos, pedidos e estoque) a partir dos serviços Angular (`src/app/core/services/*`).
 
 ## Code scaffolding
 
