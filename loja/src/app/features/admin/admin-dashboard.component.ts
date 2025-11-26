@@ -91,4 +91,14 @@ export class AdminDashboardComponent implements OnInit {
   nomeDoProduto(produtoId: string): string {
     return this.produtos().find((p) => p.id === produtoId)?.nome ?? produtoId;
   }
+
+  statusClass(status?: string | null): string {
+    const normalized = (status ?? '').toLowerCase();
+
+    if (normalized === 'pago') return 'chip-paid';
+    if (normalized === 'criado') return 'chip-created';
+    if (normalized === 'cancelado') return 'chip-cancelado';
+
+    return 'chip-default';
+  }
 }

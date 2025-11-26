@@ -4,16 +4,6 @@
     <h1>Pedidos da loja</h1>
     <p class="muted">Acompanhe tudo o que foi comprado e filtre por status para encontrar rápido.</p>
   </div>
-  <div class="hero__actions">
-    <button mat-raised-button color="primary" (click)="carregarPedidos()" [disabled]="loadingPedidos()">
-      <mat-icon>refresh</mat-icon>
-      Atualizar pedidos
-    </button>
-    <button mat-stroked-button color="primary" (click)="carregarProdutos()" [disabled]="loadingProdutos()">
-      <mat-icon>inventory_2</mat-icon>
-      Atualizar produtos
-    </button>
-  </div>
 </section>
 
 <section class="filters">
@@ -39,7 +29,12 @@
       <mat-card-title>Pedido {{ pedido.id }}</mat-card-title>
       <mat-card-subtitle>Cliente: {{ pedido.usuarioId }}</mat-card-subtitle>
       <mat-chip-set aria-label="status do pedido" class="status-chip">
-        <mat-chip color="primary" appearance="outlined">{{ pedido.status ?? 'SEM STATUS' }}</mat-chip>
+        <mat-chip
+          appearance="outlined"
+          [ngClass]="statusClass(pedido.status)"
+          [disableRipple]="true"
+          >{{ pedido.status ?? 'SEM STATUS' }}</mat-chip
+        >
       </mat-chip-set>
     </mat-card-header>
 
