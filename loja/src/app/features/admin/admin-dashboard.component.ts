@@ -71,7 +71,7 @@ export class AdminDashboardComponent implements OnInit {
 
       const itens = p.itens || [];
       const temProduto = !filtroProduto ||
-        itens.some((item) => this.nomeDoProduto(item.produtoId).toLowerCase().includes(filtroProduto));
+        itens.some((item) => this.nomeDoProduto(item.produtoId, item.produto).toLowerCase().includes(filtroProduto));
 
       const matchesId = !filtroId || (p.id ?? '').toLowerCase().includes(filtroId);
       const somaQtd = itens.reduce((total, item) => total + (item.quantidade ?? 0), 0);
@@ -126,8 +126,14 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  nomeDoProduto(produtoId: string): string {
-    return this.produtos().find((p) => p.id === produtoId)?.nome ?? produtoId;
+  nomeDoProduto(produtoId?: string | null, produto?: Produto | null): string {
+    const viaProduto = produto?.nome?.trim();
+    if (viaProduto) return viaProduto;
+
+    const idLookup = produto?.id || produtoId;
+    if (!idLookup) return 'Produto';
+
+    return this.produtos().find((p) => p.id === idLookup)?.nome ?? idLookup;
   }
 
   nomeDoCliente(usuarioId: string): string {

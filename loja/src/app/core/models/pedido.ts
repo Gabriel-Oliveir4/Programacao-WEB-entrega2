@@ -1,6 +1,13 @@
+import { Produto } from './produto';
+
 export interface PedidoItemRequest {
   produtoId: string;
   quantidade: number;
+}
+
+export interface PedidoItem extends PedidoItemRequest {
+  id?: string;
+  produto?: Produto;
 }
 
 export interface PedidoRequest {
@@ -17,5 +24,5 @@ export interface Pedido {
   id?: string;
   usuarioId: string;
   status?: string;
-  itens: PedidoItemRequest[];
+  itens: PedidoItem[];
 }
