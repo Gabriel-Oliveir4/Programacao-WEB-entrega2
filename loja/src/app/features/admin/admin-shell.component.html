@@ -23,21 +23,23 @@
       </a>
     </nav>
 
-    <button mat-flat-button color="accent" (click)="logout()">
+    <button mat-stroked-button color="accent" (click)="logout()">
       <mat-icon>logout</mat-icon>
       Sair
     </button>
   </mat-toolbar>
 
-  <section class="admin-hero">
-    <div class="hero-copy">
-      <p class="eyebrow">Backoffice</p>
-      <h2>Controle central</h2>
-      <p>Gerencie pedidos, estoque e administradores em um visual mais limpo.</p>
-    </div>
-  </section>
+  <div class="admin-body">
+    <section class="admin-hero">
+      <div>
+        <p class="eyebrow">Backoffice</p>
+        <h2>Controle central</h2>
+        <p class="muted">Gerencie pedidos, estoque e administradores em um visual mais limpo.</p>
+      </div>
+    </section>
 
-  <main class="admin-content">
-    <router-outlet />
-  </main>
+    <main class="admin-content">
+      <router-outlet />
+    </main>
+  </div>
 </div>
