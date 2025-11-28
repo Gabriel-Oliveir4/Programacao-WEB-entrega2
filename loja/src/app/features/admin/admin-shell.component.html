@@ -9,9 +9,18 @@
     </div>
 
     <nav class="toolbar-links">
-      <a mat-button routerLink="/admin/painel" routerLinkActive="active">Painel</a>
-      <a mat-button routerLink="/admin/estoque" routerLinkActive="active">Estoque</a>
-      <a mat-button routerLink="/admin/cadastrar-admin" routerLinkActive="active">Cadastrar admin</a>
+      <a mat-button routerLink="/admin/painel" routerLinkActive="active">
+        <mat-icon fontIcon="dashboard_customize"></mat-icon>
+        Painel
+      </a>
+      <a mat-button routerLink="/admin/estoque" routerLinkActive="active">
+        <mat-icon fontIcon="inventory"></mat-icon>
+        Estoque
+      </a>
+      <a mat-button routerLink="/admin/cadastrar-admin" routerLinkActive="active">
+        <mat-icon fontIcon="admin_panel_settings"></mat-icon>
+        Cadastrar admin
+      </a>
     </nav>
 
     <button mat-flat-button color="accent" (click)="logout()">

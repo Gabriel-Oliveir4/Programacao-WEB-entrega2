@@ -43,6 +43,11 @@
   box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
 }
 
+.form-card mat-card-header {
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .form-card mat-card-title,
 .form-card mat-card-subtitle {
   color: #0f172a;
@@ -60,8 +65,8 @@ button[mat-flat-button] mat-icon {
 }
 
 .avatar {
-  background: #e0e7ff;
-  color: #1e3a8a;
+  background: linear-gradient(135deg, #2563eb, #4338ca);
+  color: #ffffff;
   display: grid;
   place-items: center;
 }

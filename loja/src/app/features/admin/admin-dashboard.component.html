@@ -23,6 +23,16 @@
     <mat-label>Produto</mat-label>
     <input matInput type="text" placeholder="Nome do item" [value]="produtoFiltro()" (input)="produtoFiltro.set($any($event.target).value)" />
   </mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Pedido (id parcial)</mat-label>
+    <input matInput type="text" placeholder="#" [value]="idFiltro()" (input)="idFiltro.set($any($event.target).value)" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Qtd. mínima</mat-label>
+    <input matInput type="number" min="0" [value]="quantidadeMinFiltro() ?? ''" (input)="quantidadeMinFiltro.set($any($event.target).value ? +$any($event.target).value : null)" />
+  </mat-form-field>
 </section>
 
 <div class="feedback" *ngIf="pedidoFeedback()">{{ pedidoFeedback() }}</div>
@@ -37,7 +47,7 @@
     <mat-card-header>
       <div mat-card-avatar class="avatar"><mat-icon>shopping_bag</mat-icon></div>
       <div class="header-text">
-        <mat-card-title>Pedido #{{ pedido.id?.slice(-6) }}</mat-card-title>
+        <mat-card-title>Pedido • {{ pedido.id?.slice(-6) ?? '—' }}</mat-card-title>
         <mat-card-subtitle>Cliente: {{ nomeDoCliente(pedido.usuarioId) }}</mat-card-subtitle>
       </div>
       <mat-chip-set aria-label="status do pedido" class="status-chip">
@@ -52,15 +62,24 @@
 
     <mat-card-content>
       <div class="items-title">Itens</div>
-      <ul>
+      <ul *ngIf="pedido.itens && pedido.itens.length; else semItens">
         <li *ngFor="let item of pedido.itens">
-          <mat-icon fontIcon="radio_button_unchecked"></mat-icon>
+          <mat-icon fontIcon="radio_button_checked"></mat-icon>
           <div class="item-body">
             <span class="item-name">{{ nomeDoProduto(item.produtoId) }}</span>
-            <span class="muted">Qtd: {{ item.quantidade }}</span>
+            <span class="muted">Quantidade: {{ item.quantidade }}</span>
           </div>
         </li>
       </ul>
+
+      <ng-template #semItens>
+        <p class="muted">Nenhum item retornado para este pedido.</p>
+      </ng-template>
+
+      <div class="summary">
+        <span class="muted">Itens totais</span>
+        <strong>{{ quantidadeTotal(pedido) }}</strong>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

@@ -52,8 +52,8 @@
 }
 
 .avatar {
-  background: #e0e7ff;
-  color: #1e3a8a;
+  background: linear-gradient(135deg, #2563eb, #4338ca);
+  color: #ffffff;
 }
 
 .status {
@@ -84,15 +84,22 @@
   z-index: 20;
 }
 
+.fab-wrapper button {
+  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.35);
+}
+
 .dialog-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 0 0.5rem;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(90deg, #2563eb, #4338ca);
+  color: #ffffff;
+  border-radius: 14px 14px 8px 8px;
 }
 
 .dialog-header h3 {
-  margin: 0.2rem 0 0;
+  margin: 0.15rem 0 0;
 }
 
 .tab-content {
@@ -123,4 +130,9 @@
   color: #15803d;
   padding: 0.75rem 1rem;
   border-radius: 10px;
+}
+
+:host ::ng-deep .estoque-dialog .mat-mdc-dialog-surface {
+  border-radius: 14px;
+  padding: 0.25rem 1.25rem 1.1rem;
 }

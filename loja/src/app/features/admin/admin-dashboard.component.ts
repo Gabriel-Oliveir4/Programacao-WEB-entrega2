@@ -47,6 +47,8 @@ export class AdminDashboardComponent implements OnInit {
   protected readonly statusFiltro = signal<string>('Todos');
   protected readonly clienteFiltro = signal<string>('');
   protected readonly produtoFiltro = signal<string>('');
+  protected readonly idFiltro = signal<string>('');
+  protected readonly quantidadeMinFiltro = signal<number | null>(null);
 
   protected readonly statusDisponiveis = computed(() => {
     const status = new Set(this.pedidos().map((p) => p.status ?? 'SEM STATUS'));
@@ -57,6 +59,8 @@ export class AdminDashboardComponent implements OnInit {
     const filtro = this.statusFiltro();
     const filtroCliente = this.clienteFiltro().toLowerCase();
     const filtroProduto = this.produtoFiltro().toLowerCase();
+    const filtroId = this.idFiltro().toLowerCase();
+    const qtdMin = this.quantidadeMinFiltro();
 
     return this.pedidos().filter((p) => {
       const status = p.status ?? 'SEM STATUS';
@@ -69,7 +73,11 @@ export class AdminDashboardComponent implements OnInit {
       const temProduto = !filtroProduto ||
         itens.some((item) => this.nomeDoProduto(item.produtoId).toLowerCase().includes(filtroProduto));
 
-      return matchesStatus && matchesCliente && temProduto;
+      const matchesId = !filtroId || (p.id ?? '').toLowerCase().includes(filtroId);
+      const somaQtd = itens.reduce((total, item) => total + (item.quantidade ?? 0), 0);
+      const matchesQtd = qtdMin === null || somaQtd >= qtdMin;
+
+      return matchesStatus && matchesCliente && temProduto && matchesId && matchesQtd;
     });
   });
 
@@ -124,6 +132,10 @@ export class AdminDashboardComponent implements OnInit {
 
   nomeDoCliente(usuarioId: string): string {
     return this.usuarios().find((u) => u.id === usuarioId)?.nome ?? usuarioId;
+  }
+
+  quantidadeTotal(pedido: Pedido): number {
+    return (pedido.itens || []).reduce((total, item) => total + (item.quantidade ?? 0), 0);
   }
 
   statusClass(status?: string | null): string {

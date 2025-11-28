@@ -98,7 +98,7 @@ export class AdminEstoqueComponent implements OnInit {
     }
 
     if (this.produtoDialog) {
-      this.dialog.open(this.produtoDialog, { panelClass: 'estoque-dialog', width: '680px' });
+      this.dialog.open(this.produtoDialog, { panelClass: 'estoque-dialog', width: '760px', maxWidth: '92vw' });
     }
   }
 
@@ -107,7 +107,7 @@ export class AdminEstoqueComponent implements OnInit {
     this.movimentoForm.patchValue({ produtoId: targetId });
 
     if (this.movimentoDialog) {
-      this.dialog.open(this.movimentoDialog, { panelClass: 'estoque-dialog', width: '520px' });
+      this.dialog.open(this.movimentoDialog, { panelClass: 'estoque-dialog', width: '600px', maxWidth: '92vw' });
     }
   }
 
