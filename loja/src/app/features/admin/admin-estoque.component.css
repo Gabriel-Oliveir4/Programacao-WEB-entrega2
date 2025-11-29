@@ -44,8 +44,10 @@
 }
 
 .avatar {
-  background: linear-gradient(135deg, #2563eb, #4338ca);
-  color: #ffffff;
+  background: transparent;
+  color: #2563eb;
+  display: grid;
+  place-items: center;
 }
 
 .status {
