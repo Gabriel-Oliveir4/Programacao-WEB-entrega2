@@ -106,6 +106,10 @@
   padding: 0.85rem 0 1rem;
 }
 
+.dialog-body {
+  padding: 1.15rem 1.25rem 1.35rem;
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -134,7 +138,7 @@
 
 :host ::ng-deep .estoque-dialog .mat-mdc-dialog-surface {
   border-radius: 14px;
-  padding: 0.25rem 1.25rem 1.1rem;
+  padding: 0.5rem 0.85rem 0.85rem;
   max-height: 90vh;
   min-width: min(760px, 92vw);
 }
