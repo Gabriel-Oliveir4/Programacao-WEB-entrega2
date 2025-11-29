@@ -4,11 +4,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { ProdutoService } from '../../core/services/produto.service';
 import { Produto, ProdutoRequest } from '../../core/models/produto';
@@ -28,7 +29,8 @@ import { EstoqueMovimentoRequest } from '../../core/models/estoque';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSnackBarModule
   ],
   templateUrl: './admin-estoque.component.html',
   styleUrl: './admin-estoque.component.css'
@@ -38,9 +40,13 @@ export class AdminEstoqueComponent implements OnInit {
   private readonly estoqueService = inject(EstoqueService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly dialog = inject(MatDialog);
+  private readonly snackBar = inject(MatSnackBar);
 
   @ViewChild('produtoDialog') produtoDialog?: TemplateRef<unknown>;
   @ViewChild('movimentoDialog') movimentoDialog?: TemplateRef<unknown>;
+
+  private produtoDialogRef?: MatDialogRef<unknown>;
+  private movimentoDialogRef?: MatDialogRef<unknown>;
 
   protected readonly produtos = signal<Produto[]>([]);
   protected readonly loadingProdutos = signal(false);
@@ -98,7 +104,7 @@ export class AdminEstoqueComponent implements OnInit {
     }
 
     if (this.produtoDialog) {
-      this.dialog.open(this.produtoDialog, { panelClass: 'estoque-dialog', width: '760px', maxWidth: '92vw' });
+      this.produtoDialogRef = this.dialog.open(this.produtoDialog, { panelClass: 'estoque-dialog', width: '760px', maxWidth: '92vw' });
     }
   }
 
@@ -107,7 +113,7 @@ export class AdminEstoqueComponent implements OnInit {
     this.movimentoForm.patchValue({ produtoId: targetId });
 
     if (this.movimentoDialog) {
-      this.dialog.open(this.movimentoDialog, { panelClass: 'estoque-dialog', width: '600px', maxWidth: '92vw' });
+      this.movimentoDialogRef = this.dialog.open(this.movimentoDialog, { panelClass: 'estoque-dialog', width: '600px', maxWidth: '92vw' });
     }
   }
 
@@ -135,12 +141,17 @@ export class AdminEstoqueComponent implements OnInit {
         this.resetProdutoForm();
         this.carregarProdutos();
 
+        this.produtoDialogRef?.close();
+        this.snackBar.open(this.feedback() ?? 'Operação concluída.', 'Fechar', { duration: 3000 });
+
         if (!this.movimentoForm.controls.produtoId.value) {
           this.movimentoForm.patchValue({ produtoId: produto.id ?? '' });
         }
       },
       error: (err) => {
         this.feedback.set(err?.error?.message ?? 'Não foi possível salvar o produto.');
+        this.produtoDialogRef?.close();
+        this.snackBar.open(this.feedback()!, 'Fechar', { duration: 3000 });
       }
     });
   }
@@ -191,9 +202,14 @@ export class AdminEstoqueComponent implements OnInit {
       next: () => {
         this.movimentoFeedback.set('Movimentação registrada.');
         this.carregarProdutos();
+
+        this.movimentoDialogRef?.close();
+        this.snackBar.open(this.movimentoFeedback()!, 'Fechar', { duration: 3000 });
       },
       error: (err) => {
         this.movimentoFeedback.set(err?.error?.message ?? 'Não foi possível registrar a movimentação.');
+        this.movimentoDialogRef?.close();
+        this.snackBar.open(this.movimentoFeedback()!, 'Fechar', { duration: 3000 });
       }
     });
   }
