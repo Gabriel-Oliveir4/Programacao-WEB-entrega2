@@ -3,12 +3,9 @@
   color: #0f172a;
 }
 
-.page-title {
-  margin-bottom: 0.5rem;
-}
-
 .page-title h1 {
-  margin: 0.2rem 0;
+  margin: 0.2rem 0 0.15rem;
+  font-size: 1.4rem;
 }
 
 .eyebrow {
@@ -27,8 +24,8 @@
 .filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 0.35rem;
+  gap: 0.65rem;
+  margin-bottom: 0.25rem;
 }
 
 .filter-field {
@@ -55,19 +52,8 @@
 .order-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.order-card {
-  border-radius: 12px;
-  background: #ffffff;
-  color: #0f172a;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 12px 20px rgba(15, 23, 42, 0.06);
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 0.25rem;
+  gap: 0.8rem;
+  margin-top: 0.6rem;
 }
 
 .header-text {
@@ -133,7 +119,6 @@
 
 .order-card mat-card-content {
   border-top: 1px solid #f1f5f9;
-  padding-top: 0.4rem;
 }
 
 .chip-paid {

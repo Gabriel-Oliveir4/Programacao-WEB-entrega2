@@ -43,7 +43,7 @@
 <p class="muted" *ngIf="!loadingPedidos() && !pedidosFiltrados().length">Nenhum pedido encontrado para este filtro.</p>
 
 <div class="order-grid" *ngIf="!loadingPedidos() && pedidosFiltrados().length">
-  <mat-card class="order-card" *ngFor="let pedido of pedidosFiltrados()">
+  <mat-card class="admin-card order-card" *ngFor="let pedido of pedidosFiltrados()">
     <mat-card-header>
       <div mat-card-avatar class="avatar"><mat-icon>shopping_bag</mat-icon></div>
       <div class="header-text">
