@@ -1,8 +1,8 @@
 <section class="auth-grid">
-  <div class="login-card">
+  <div class="login-card solo-card">
     <header>
-      <h1>Entrar</h1>
-      <p>Acesse com o mesmo usuário da API La Couro.</p>
+      <h1>Login do admin</h1>
+      <p>Acesse com as credenciais administrativas configuradas na API La Couro.</p>
     </header>
 
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
@@ -27,45 +27,6 @@
       </button>
 
       <p *ngIf="feedback()" class="feedback">{{ feedback() }}</p>
-    </form>
-  </div>
-
-  <div class="login-card create-card">
-    <header>
-      <h2>Cadastrar cliente</h2>
-      <p>Use este formulário para gerar um usuário com perfil CLIENTE.</p>
-    </header>
-
-    <form [formGroup]="registerForm" (ngSubmit)="submitRegister()" novalidate>
-      <label class="field">
-        <span>Nome</span>
-        <input type="text" formControlName="nome" placeholder="Cliente da Loja" />
-        <small *ngIf="registerForm.controls.nome.invalid && registerForm.controls.nome.touched">
-          Informe um nome com pelo menos 3 caracteres.
-        </small>
-      </label>
-
-      <label class="field">
-        <span>Email</span>
-        <input type="email" formControlName="email" placeholder="cliente@exemplo.com" />
-        <small *ngIf="registerForm.controls.email.invalid && registerForm.controls.email.touched">
-          Informe um email válido.
-        </small>
-      </label>
-
-      <label class="field">
-        <span>Senha</span>
-        <input type="password" formControlName="senha" placeholder="••••••••" />
-        <small *ngIf="registerForm.controls.senha.invalid && registerForm.controls.senha.touched">
-          Senha obrigatória (mínimo 4 caracteres).
-        </small>
-      </label>
-
-      <button type="submit" [disabled]="registerLoading()">
-        {{ registerLoading() ? 'Cadastrando...' : 'Criar conta cliente' }}
-      </button>
-
-      <p *ngIf="registerFeedback()" class="feedback">{{ registerFeedback() }}</p>
     </form>
   </div>
 </section>

@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginRequest } from '../../../core/models/login-request';
-import { RegisterRequest } from '../../../core/models/register-request';
 
 @Component({
   selector: 'app-login',
@@ -20,17 +19,9 @@ export class LoginComponent {
   private readonly router = inject(Router);
 
   feedback = signal<string | null>(null);
-  registerFeedback = signal<string | null>(null);
   loading = signal(false);
-  registerLoading = signal(false);
 
   form = this.formBuilder.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
-    senha: ['', [Validators.required, Validators.minLength(4)]]
-  });
-
-  registerForm = this.formBuilder.nonNullable.group({
-    nome: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     senha: ['', [Validators.required, Validators.minLength(4)]]
   });
@@ -54,29 +45,6 @@ export class LoginComponent {
       error: (err) => {
         this.loading.set(false);
         this.feedback.set(err?.error?.message ?? 'Não foi possível fazer login.');
-      }
-    });
-  }
-
-  submitRegister(): void {
-    if (this.registerForm.invalid) {
-      this.registerForm.markAllAsTouched();
-      return;
-    }
-
-    const payload: RegisterRequest = this.registerForm.getRawValue();
-    this.registerLoading.set(true);
-    this.registerFeedback.set(null);
-
-    this.authService.register(payload).subscribe({
-      next: () => {
-        this.registerLoading.set(false);
-        this.registerFeedback.set('Cliente cadastrado! Agora é só entrar com o email e senha.');
-        this.registerForm.reset();
-      },
-      error: (err) => {
-        this.registerLoading.set(false);
-        this.registerFeedback.set(err?.error?.message ?? 'Não foi possível cadastrar o usuário.');
       }
     });
   }

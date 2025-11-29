@@ -3,10 +3,9 @@ body {
 }
 
 .auth-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
-  align-items: start;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
 }
 
 .login-card {
@@ -19,8 +18,9 @@ body {
   gap: 1.25rem;
 }
 
-.create-card {
-  background: linear-gradient(180deg, #f8f5ff, #fff);
+.solo-card {
+  max-width: 520px;
+  width: min(520px, 100%);
 }
 
 header h1 {
