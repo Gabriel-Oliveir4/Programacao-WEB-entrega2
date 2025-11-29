@@ -15,6 +15,7 @@ import { Pedido } from '../../core/models/pedido';
 import { Produto } from '../../core/models/produto';
 import { User } from '../../core/models/user';
 import { UserService } from '../../core/services/user.service';
+import { statusChipClass } from './status-chip.util';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -49,6 +50,7 @@ export class AdminDashboardComponent implements OnInit {
   protected readonly produtoFiltro = signal<string>('');
   protected readonly idFiltro = signal<string>('');
   protected readonly quantidadeMinFiltro = signal<number | null>(null);
+  protected readonly statusClass = statusChipClass;
 
   protected readonly statusDisponiveis = computed(() => {
     const status = new Set(this.pedidos().map((p) => p.status ?? 'SEM STATUS'));
@@ -142,15 +144,5 @@ export class AdminDashboardComponent implements OnInit {
 
   quantidadeTotal(pedido: Pedido): number {
     return (pedido.itens || []).reduce((total, item) => total + (item.quantidade ?? 0), 0);
-  }
-
-  statusClass(status?: string | null): string {
-    const normalized = (status ?? '').toLowerCase();
-
-    if (normalized === 'pago') return 'chip-paid';
-    if (normalized === 'criado') return 'chip-created';
-    if (normalized === 'cancelado') return 'chip-cancelado';
-
-    return 'chip-default';
   }
 }

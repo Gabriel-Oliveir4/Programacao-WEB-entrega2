@@ -18,8 +18,12 @@
       </div>
       <mat-card-title>{{ produto.nome }}</mat-card-title>
       <mat-card-subtitle>{{ produto.tamanho }} • {{ produto.cor }}</mat-card-subtitle>
-      <mat-chip-set aria-label="status" class="status">
-        <mat-chip [color]="produto.ativo === false ? 'warn' : 'primary'" appearance="outlined">{{ produto.ativo === false ? 'Inativo' : 'Ativo' }}</mat-chip>
+      <mat-chip-set aria-label="status" class="status-chip">
+        <mat-chip
+          appearance="outlined"
+          [ngClass]="statusClass(produto.ativo === false ? 'inativo' : 'ativo')"
+          [disableRipple]="true"
+        >{{ produto.ativo === false ? 'Inativo' : 'Ativo' }}</mat-chip>
       </mat-chip-set>
     </mat-card-header>
 

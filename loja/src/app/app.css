@@ -72,3 +72,32 @@ nav a:hover {
 .admin-card .mat-mdc-card-actions {
   padding: 0 1rem 0.9rem;
 }
+
+/* Status chips compartilhados (pedidos/estoque) */
+.chip-paid {
+  color: #0f5132 !important;
+  background: #d1fae5 !important;
+  border-color: #22c55e !important;
+}
+
+.chip-created {
+  color: #854d0e !important;
+  background: #fef3c7 !important;
+  border-color: #f59e0b !important;
+}
+
+.chip-cancelado {
+  color: #7f1d1d !important;
+  background: #fee2e2 !important;
+  border-color: #ef4444 !important;
+}
+
+.chip-default {
+  color: #0f172a !important;
+  background: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.status-chip mat-chip {
+  text-transform: uppercase;
+}

@@ -50,10 +50,6 @@
   place-items: center;
 }
 
-.status {
-  margin-left: auto;
-}
-
 .mat-mdc-card-actions {
   display: flex;
   align-items: center;

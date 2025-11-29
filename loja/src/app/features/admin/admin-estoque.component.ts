@@ -15,6 +15,7 @@ import { ProdutoService } from '../../core/services/produto.service';
 import { Produto, ProdutoRequest } from '../../core/models/produto';
 import { EstoqueService } from '../../core/services/estoque.service';
 import { EstoqueMovimentoRequest } from '../../core/models/estoque';
+import { statusChipClass } from './status-chip.util';
 
 @Component({
   selector: 'app-admin-estoque',
@@ -53,6 +54,7 @@ export class AdminEstoqueComponent implements OnInit {
   protected readonly feedback = signal<string | null>(null);
   protected readonly movimentoFeedback = signal<string | null>(null);
   protected readonly selectedProdutoId = signal<string | null>(null);
+  protected readonly statusClass = statusChipClass;
 
   protected produtoForm = this.formBuilder.nonNullable.group({
     nome: ['', [Validators.required, Validators.minLength(2)]],
