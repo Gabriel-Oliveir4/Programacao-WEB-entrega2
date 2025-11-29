@@ -68,27 +68,6 @@
   padding: 1rem 1.25rem 2.5rem;
 }
 
-.admin-hero {
-  padding: 1.1rem 1.25rem 0.35rem;
-}
-
-.admin-hero h2 {
-  margin: 0.2rem 0;
-  font-size: 1.35rem;
-}
-
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0;
-}
-
-.muted {
-  color: #64748b;
-}
-
 .admin-content {
   padding: 0.25rem 0.25rem 0;
 }

@@ -1,14 +1,10 @@
-<section class="hero">
-  <div class="hero__text">
-    <p class="eyebrow">Estoque</p>
-    <h1>Produtos publicados</h1>
-    <p class="muted">Edite ou movimente o estoque. Use o atalho flutuante para cadastrar novos itens.</p>
-  </div>
+<header class="page-header">
+  <h1>Estoque</h1>
   <button mat-stroked-button color="primary" (click)="carregarProdutos()" [disabled]="loadingProdutos()">
     <mat-icon>refresh</mat-icon>
-    Atualizar lista
+    Atualizar
   </button>
-</section>
+</header>
 
 <section class="cards" *ngIf="produtos().length; else vazio">
   <mat-card class="admin-card produto-card" *ngFor="let produto of produtos()">
@@ -110,7 +106,6 @@
         <button mat-button type="button" (click)="resetProdutoForm()" *ngIf="selectedProdutoId()">Limpar</button>
       </div>
     </form>
-    <p class="feedback" *ngIf="feedback()">{{ feedback() }}</p>
   </div>
 </ng-template>
 
@@ -151,6 +146,5 @@
 
       <button mat-flat-button color="accent" type="submit">Registrar</button>
     </form>
-    <p class="feedback" *ngIf="movimentoFeedback()">{{ movimentoFeedback() }}</p>
   </div>
 </ng-template>

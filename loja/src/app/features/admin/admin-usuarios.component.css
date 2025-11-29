@@ -11,28 +11,14 @@
   gap: 1rem;
 }
 
-.hero {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 1rem 1.25rem;
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+.page-header {
+  padding: 0.5rem 0.25rem;
 }
 
-.hero h1 {
-  margin: 0.15rem 0;
-}
-
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #0f172a;
+.page-header h1 {
   margin: 0;
-  font-weight: 700;
-}
-
-.muted {
-  color: #64748b;
+  font-size: 1.3rem;
+  font-weight: 800;
 }
 
 .form-card {
