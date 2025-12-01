@@ -1,5 +1,3 @@
-# Loja (Frontend Angular)
-
 Aplicação Angular que consome a API La Couro com login JWT, área administrativa e catálogo protegido por guardas de rota.
 
 ## Estrutura de pastas
@@ -15,7 +13,7 @@ Aplicação Angular que consome a API La Couro com login JWT, área administrati
 ## Integração com API
 - Services dedicados: `AuthService`, `UserService`, `ProdutoService`, `PedidoService`, `EstoqueService` (todos em `core/services`).
 - Chamadas HTTP com `HttpClient` para `GET/POST/PUT/PATCH/DELETE` usando `environment.apiUrl`.
-- Proxy local (`npm start`) envia `/api` para `http://localhost:8080`, evitando CORS na dev.
+- Proxy local (`npm start`) envia `/api` para `http://localhost:8080`, evitando CORS.
 
 ## Segurança e Autenticação
 - Login via `AuthService.login` (`POST /api/auth/login`); token JWT salvo em `localStorage`.
@@ -26,9 +24,6 @@ Aplicação Angular que consome a API La Couro com login JWT, área administrati
 - Formulários reativos com `FormBuilder` e validadores (`required`, `email`, `minLength`).
 - Feedback de erro via `<mat-error>` em campos inválidos.
 
-## UI/UX
-- Componentes Angular Material (toolbar, card, form-field, button, icon, table) e utilitários Bootstrap para grid/responsividade.
-- Listagens e ações de CRUD presentes nos módulos de admin (pedidos, estoque, usuários) e na home protegida.
 
 ## Como rodar
 ```bash
@@ -36,4 +31,4 @@ cd loja
 npm install
 npm start
 ```
-Acesse `http://localhost:4200/`. Certifique-se de que o backend esteja em `http://localhost:8080` (ou ajuste `environment.ts`).
+Acesse `http://localhost:4200/`
